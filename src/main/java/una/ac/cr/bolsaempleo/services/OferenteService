@@ -1,0 +1,49 @@
+package una.ac.cr.bolsaempleo.services;
+
+import una.ac.cr.bolsaempleo.models.Oferente;
+import una.ac.cr.bolsaempleo.repositories.OferenteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class OferenteService {
+
+    @Autowired
+    private OferenteRepository oferenteRepository;
+
+    public List<Oferente> obtenerTodos() {
+        return oferenteRepository.findAll();
+    }
+
+    public List<Oferente> obtenerPendientes() {
+        return oferenteRepository.findByAprobadoFalse();
+    }
+
+    public List<Oferente> obtenerAprobados() {
+        return oferenteRepository.findByAprobadoTrue();
+    }
+
+    public Oferente obtenerPorId(Long id) {
+        return oferenteRepository.findById(id).orElse(null);
+    }
+
+    public Oferente obtenerPorCorreo(String correo) {
+        return oferenteRepository.findByCorreo(correo);
+    }
+
+    public Oferente guardar(Oferente oferente) {
+        return oferenteRepository.save(oferente);
+    }
+
+    public void aprobar(Long id) {
+        Oferente o = obtenerPorId(id);
+        if (o != null) {
+            o.setAprobado(true);
+            if (o.getPassword() == null || o.getPassword().isBlank()) {
+                o.setPassword(o.getIdentificacion());
+            }
+            oferenteRepository.save(o);
+        }
+    }
+}
