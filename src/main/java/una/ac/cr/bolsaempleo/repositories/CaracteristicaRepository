@@ -1,0 +1,10 @@
+package una.ac.cr.bolsaempleo.repositories;
+
+import una.ac.cr.bolsaempleo.models.Caracteristica;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+public interface CaracteristicaRepository extends JpaRepository<Caracteristica, Long> {
+    List<Caracteristica> findByPadreIsNull();
+    List<Caracteristica> findByPadreId(Long padreId);
+}
