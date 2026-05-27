@@ -1,10 +1,12 @@
 package una.ac.cr.bolsaempleo.services;
 
-import una.ac.cr.bolsaempleo.models.Oferente;
-import una.ac.cr.bolsaempleo.repositories.OferenteRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import una.ac.cr.bolsaempleo.models.Oferente;
+import una.ac.cr.bolsaempleo.repositories.OferenteRepository;
 
 @Service
 public class OferenteService {
