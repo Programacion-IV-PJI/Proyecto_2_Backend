@@ -48,4 +48,8 @@ public class EmpresaService {
             empresaRepository.save(e);
         }
     }
+
+    public void eliminar(Long id) {
+        empresaRepository.deleteById(id);
+    }
 }

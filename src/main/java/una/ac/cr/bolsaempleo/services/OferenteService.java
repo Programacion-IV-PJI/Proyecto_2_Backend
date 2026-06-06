@@ -48,4 +48,8 @@ public class OferenteService {
             oferenteRepository.save(o);
         }
     }
+
+    public void eliminar(Long id) {
+        oferenteRepository.deleteById(id);
+    }
 }

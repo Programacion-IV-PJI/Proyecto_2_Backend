@@ -125,4 +125,16 @@ public class AdminController {
     public ResponseEntity<List<CandidatoResultadoDTO>> buscarCandidatos(@PathVariable Long puestoId) {
         return ResponseEntity.ok(matchingService.buscarCandidatos(puestoId));
     }
+
+    @PostMapping("/empresas/{id}/rechazar")
+    public ResponseEntity<Void> rechazarEmpresa(@PathVariable Long id) {
+        empresaService.eliminar(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/oferentes/{id}/rechazar")
+    public ResponseEntity<Void> rechazarOferente(@PathVariable Long id) {
+        oferenteService.eliminar(id);
+        return ResponseEntity.ok().build();
+    }
 }
