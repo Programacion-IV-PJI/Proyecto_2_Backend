@@ -23,11 +23,17 @@ public class PuestoService {
         return puestoRepository.findTop5ByPublicoTrueAndActivoTrueOrderByIdDesc();
     }
 
-    public List<Puesto> buscarPorCaracteristicas(List<Long> ids) {
+    public List<Puesto> buscarPorCaracteristicas(List<Long> ids, boolean soloPublicos) {
         if (ids == null || ids.isEmpty()) {
-            return puestoRepository.findByActivoTrue();
+            return puestoRepository.findByActivoTrue().stream()
+                    .filter(p -> soloPublicos ? p.isPublico() : true)
+                    .collect(java.util.stream.Collectors.toList());
         }
-        return puestoRepository.findByCaracteristicas(ids);
+        if (soloPublicos) {
+            return puestoRepository.findByCaracteristicas(ids);
+        } else {
+            return puestoRepository.findByCaracteristicasTodos(ids);
+        }
     }
 
     public List<Puesto> obtenerPorEmpresa(Empresa empresa) {

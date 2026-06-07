@@ -27,8 +27,12 @@ public class PuestoController {
 
     @GetMapping("/buscar")
     public ResponseEntity<List<EmpresaDTOs.PuestoResumenDTO>> buscar(
-            @RequestParam(required = false) List<Long> caracteristicas) {
-        List<EmpresaDTOs.PuestoResumenDTO> lista = puestoService.buscarPorCaracteristicas(caracteristicas)
+            @RequestParam(required = false) List<Long> caracteristicas,
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+
+        boolean tieneToken = authHeader != null && authHeader.startsWith("Bearer ");
+
+        List<EmpresaDTOs.PuestoResumenDTO> lista = puestoService.buscarPorCaracteristicas(caracteristicas, !tieneToken)
                 .stream()
                 .map(p -> toDTO(p))
                 .collect(Collectors.toList());

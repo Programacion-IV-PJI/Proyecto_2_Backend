@@ -18,4 +18,8 @@ public interface PuestoRepository extends JpaRepository<Puesto, Long> {
 
     @Query("SELECT p FROM Puesto p WHERE FUNCTION('MONTH', p.fechaCreacion) = :mes AND FUNCTION('YEAR', p.fechaCreacion) = :anio")
     List<Puesto> findByMesYAnio(@Param("mes") int mes, @Param("anio") int anio);
+
+    @Query("SELECT DISTINCT p FROM Puesto p JOIN p.caracteristicas r " +
+            "WHERE r.caracteristica.id IN :ids AND p.activo = true")
+    List<Puesto> findByCaracteristicasTodos(@Param("ids") List<Long> ids);
 }
