@@ -87,10 +87,14 @@ public class OferenteController {
 
     @PostMapping("/cv")
     public ResponseEntity<?> subirCV(
-            @RequestHeader("Authorization") String authHeader,
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
             @RequestParam("archivo") MultipartFile archivo) {
         try {
-            Long id = extraerId(authHeader);
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(403).body("No autorizado");
+            }
+            String token = authHeader.substring(7);
+            Long id = jwtService.obtenerIdUsuario(token);
             String nombre = "cv_" + id + ".pdf";
             Path ruta = Paths.get("uploads/", nombre);
             Files.createDirectories(ruta.getParent());
